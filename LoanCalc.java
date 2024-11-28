@@ -50,7 +50,7 @@ public class LoanCalc {
 		while (check == false) {
 			balance = endBalance(loan, rate, n, x);
 			if (Math.abs(balance) < epsilon) { check = true;}
-			else { x = x + 0.01; iterationCounter++;}
+			else { x = x + 0.001; iterationCounter++;}
 		}
 		return x;
     }
