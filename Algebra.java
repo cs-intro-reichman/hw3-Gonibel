@@ -22,46 +22,246 @@ public class Algebra {
 		System.out.println(sqrt(263169));
    		System.out.println(sqrt(76123));
 	}  
+	public static int changeSign(int x){
+		if (x == 0) {
+			return 0; 
+		}
+		int y = 0; 
+		if (x > 0) { 
+			
+			while (x != 0) {
+				x--; 
+				y--; 
+			}
+		} else {
+			
+			while (x != 0) {
+				x++; 
+				y++; 
+			}
+		}
+		return y; 
+	}
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
 		// Replace the following statement with your code
+		if (x1 > 0 && x2 > 0) {
+			for (int i = 0; i < x2; i++) {
+				x1++;
+			}
+			return x1;
+		}
+		if (x1 > 0) {
+			if(x2 == 0) {return x1;}
+			else {
+				for( int i = x2; i < 0; i++) {
+					x1--;
+				}
+				return x1;
+			}
+		}
+		if (x2 > 0){
+			if(x1 == 0) {return x2;}
+			else {
+				for( int i = x1; i < 0; i++) {
+					x2--;
+				}
+				return x2;
+			}
+		}
+		if (x1 == 0 && x2 == 0) {return 0;}
+		if (x1 < 0 && x2 < 0) {
+			for (int i = x2; i < 0; i++) {
+				x1--;
+			}
+			return x1;
+		}
 		return 0;
-	}
-
+		
+}
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
 		// Replace the following statement with your code
-		return 0;
-	}
+		if(x1 < -1000000) {x1--; return x1;}
 
+		if(x1 > 0 && x2 > 0){
+			int r = plus(x1, changeSign(x2));
+			return r;
+		}
+		if (x1 > 0){
+			if (x2 == 0) {return x1;}
+				else {
+					int r = plus(x1, changeSign(x2));
+					return r;
+				}
+		}
+		if (x2 > 0) {
+			if (x1 == 0) {return changeSign(x2);}
+				else {
+					int r =  changeSign(plus(changeSign(x1), x2));
+					return r;
+				}
+		}
+		if(x1 == 0 && x2 == 0) {return 0;}
+		if ( x1 < 0 && x2 < 0) {
+			int r =  plus(x1, changeSign(x2));
+			return r;
+		}
+		return 0;
+		
+}
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
         // Replace the following statement with your code
+		if (x1 == 0 || x2 == 0) {return 0;}
+		if (x1 > 0 && x2 > 0) {
+			int change = x1;
+			for (int i = 1; i < x2; i++) {
+				x1 = plus(x1, change);
+			}
+			return x1;
+			}
+		if (x1 < 0 && x2 < 0) {
+			x1 = changeSign(x1);
+			x2 = changeSign(x2);
+			int change = x1;
+			for (int i = 1; i < x2; i++) {
+				x1 = plus(x1, change);
+			}
+			return x1;
+		}	
+		if (x1 < 0 && x2 > 0) {
+			x1 = changeSign(x1);
+			int change = x1;
+			for (int i = 1; i < x2; i++) {
+				x1 = plus(x1, change);
+			}
+			int r =  changeSign(x1);
+			return r;
+		}
+		if (x1 > 0 && x2 < 0) {
+			x2 = changeSign(x2);
+			int change = x1;
+			for (int i = 1; i < x2; i++) {
+				x1 = plus(x1, change);
+			}
+			int r =  changeSign(x1);
+			return r;
+		}
 		return 0;
-	}
+		}
+		
+		
+	
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
 		// Replace the following statement with your code
-		return 0;
+		if (n == 0){return 1;}
+		if (n == 1){ return x;}
+		if (x == 0){return 0;}
+		if (x == 1){return 1;}
+
+
+			int change = x;
+			for (int i = 1; i < n; i++) {
+				x = times(x, change);
+			}
+			return x;
+		
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
         // Replace the following statement with your code
-		return 0;
+		int counter = 0;
+		if (x2 == 0) {return 0;}
+		if (x1 == 0) {return 0;}
+		if(x1 == x2){return 1;}
+		if(abs(x1) < abs(x2)) {return 0;}
+		if (x1 > x2){
+		while (x1 > x2) {
+			x1 = minus(x1, x2);
+			counter++;
+		}
+		if (x1 == x2) {counter++;}
+		return counter;
+		}
+
+		if(x1 < 0 && x2 < 0) {
+			x1 = changeSign(x1);
+			x2 = changeSign(x2);
+			while (x1 > x2) {
+				x1 = minus(x1, x2);
+				counter++;
+			}
+			if (x1 == x2) {counter++;}
+			return counter;
+		}
+		if (x1 < 0 && x2 > 0) {
+			x1 = changeSign(x1);
+			while (x1 > x2) {
+				x1 = minus(x1, x2);
+				counter++;
+			}
+			if (x1 == x2) {counter++;}
+			counter = changeSign(counter);
+			return counter;
+		}
+		if (x1 > 0 && x2 < 0) {
+			x2 = changeSign(x2);
+			while (x1 > x2) {
+				x1 = minus(x1, x2);
+				counter++;
+			}
+			if (x1 == x2) {counter++;}
+			counter = changeSign(counter);
+			return counter;
+		}
+		 return 0;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
         // Replace the following statement with your code
-		return 0;
-	}	
 
+		if (x1 == 0) {return 0;}
+		if (x2 == 0) {return 0;}
+		if(x1 == x2) {return 0;}
+		if (x1 < x2) {return x1;}
+
+		if (x1 > x2) {
+			int change = div(x1, x2);
+			change = times(x2, change);
+			change = minus(x1, change);
+			return change;
+		}
+
+
+		return 0;
+		
+	
+}
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
         // Replace the following statement with your code
+		if (x <= 0) {return 0;}
+		if(x == 1) {return 1;}
+		else {
+			for (int i = 1; i < x; i++) {
+				if (pow(i, 2) == x) {return i;}
+				if (pow(i, 2) > x) {return minus(i, 1);}
+			}
+		}
 		return 0;
-	}	  	  
+
+		
+
+	}	  	
+	
+	public static int abs(int x) {
+		if (x > 0) {return x;}
+		else{ int r = changeSign(x); return r;}
+	}
 }
