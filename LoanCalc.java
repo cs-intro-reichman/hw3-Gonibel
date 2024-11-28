@@ -42,17 +42,13 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
-		// Replace the following statement with your code
-		iterationCounter = 0;
-		boolean check = false;
-		double balance;
-		double x = loan / n;
-		while (check == false) {
-			balance = endBalance(loan, rate, n, x);
-			if (Math.abs(balance) < epsilon) { check = true;}
-			else { x = x + 0.001; iterationCounter++;}
+		iterationCounter = 0; 
+		double g = loan / n; 
+		while (endBalance(loan, rate, n, g) > 0) {
+			g += epsilon; 
+			iterationCounter ++; 
 		}
-		return x;
+		return g;
     }
     
     // Uses bisection search to compute an approximation of the periodical payment 
@@ -60,27 +56,19 @@ public class LoanCalc {
 	// Given: the sum of the loan, the periodical interest rate (as a percentage),
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
-        // Replace the following statement with your code
-		iterationCounter = 0;
-		boolean check = false;
-		double l = 0.0;
+	public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
+        iterationCounter = 0;
+		double l = 0;
 		double h = loan;
-		double x = (l + h) / 2;
-		while (check == false) {
-			if (Math.abs(endBalance(loan, rate, n, x)) < epsilon || h - l < epsilon) {check = true;}
-			else {
-				if( endBalance(loan, rate, n, x) < 0){
-					h = x;
-					x = (l + h) / 2;
-				} else {
-					l = x;
-					x = (l + h) / 2;
-				}
-				iterationCounter++;
-			}
-
+		double g = (l + h)/2;
+		while (h - l > epsilon) {
+			if ((endBalance(loan, rate, n, g)) * (endBalance(loan, rate, n, l)) > 0)
+			l = g;
+			else
+			h = g;
+			g = (l + h)/2;
+			iterationCounter++;
 		}
-		return x;
-    }
+		return g;
+	}
 }
