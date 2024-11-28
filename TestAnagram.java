@@ -50,7 +50,7 @@ public class TestAnagram {
         totalTests += 4;
 
         // Test case 1: Remove special characters
-        boolean test1 = Anagram.preProcess("What? No way!!!").equals("whatnoway");
+        boolean test1 = Anagram.preProcess("What? No way!!!").equals("what no way");
         System.out.println("Test 1 (special chars): " + (test1 ? "PASS" : "FAIL"));
         
         // Test case 2: Preserve spaces
