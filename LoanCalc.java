@@ -46,8 +46,9 @@ public class LoanCalc {
 		iterationCounter = 0;
 		boolean check = false;
 		double balance;
+		double bound = loan;
 		double x = loan / n;
-		while (check == false) {
+		while (check == false && x <= bound) {
 			balance = endBalance(loan, rate, n, x);
 			if (Math.abs(balance) < epsilon) { check = true;}
 			else { x = x + 0.01; iterationCounter++;}
@@ -73,12 +74,11 @@ public class LoanCalc {
 				if( endBalance(loan, rate, n, x) < 0){
 					h = x;
 					x = (l + h) / 2;
-					iterationCounter++;
 				} else {
 					l = x;
 					x = (l + h) / 2;
-					iterationCounter++;
 				}
+				iterationCounter++;
 			}
 
 		}
